@@ -48,26 +48,23 @@
   <textarea id="snippet" readonly placeholder="Generated code will appear here…"></textarea>
 
   <script>
-    document.getElementById('generate').addEventListener('click', () => {
-      const user = document.getElementById('username').value.trim();
-      let  cnt  = parseInt(document.getElementById('count').value, 10);
-      if (!user) {
-        alert('Please enter a TikTok username.');
-        return;
-      }
-      if (!cnt || cnt < 1) cnt = 6;
+   document.getElementById('generate').addEventListener('click', () => {
+  const user = document.getElementById('username').value.trim();
+  let  cnt  = parseInt(document.getElementById('count').value, 10);
+  if (!user) { alert('Enter a TikTok username'); return; }
+  if (!cnt || cnt < 1) cnt = 6;
 
-      const endpoint = `https://tiktok-feed-sigma.vercel.app/api/tiktok?username=${user}&count=${cnt}`;
+  const endpoint = `https://tiktok-feed-sigma.vercel.app/api/tiktok?username=${user}&count=${cnt}`;
 
-      const snippet = 
+  const snippet =
 `<!-- TikTok feed for @${user} (max 4 columns) -->
 <div id="tiktok-feed-container" style="
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
     gap: 1rem;
     margin: 1rem auto;
-    /* 4 × 275px + 3 × 1rem gap = 1100px + 48px = 1148px */
-    max-width: 1148px;
+    /* 4 × 275px + 3 × 1rem gap = 900px + 48px = 948px */
+    max-width: 948px;
   ">
 </div>
 
@@ -85,7 +82,7 @@
           block.setAttribute('cite', \`https://www.tiktok.com/@${user}/video/\${id}\`);
           block.setAttribute('data-video-id', id);
           block.style.maxWidth = '325px';
-          block.style.minWidth = '275px';
+          block.style.minWidth = '225px';
           block.innerHTML = '<section></section>';
           container.appendChild(block);
         });
@@ -104,19 +101,11 @@
         container.innerHTML = '<p>Failed to load TikTok videos.</p>';
       });
   })();
-<\/script>`;
+</script>`;
 
-      const ta = document.getElementById('snippet');
-      ta.value = snippet;
-      document.getElementById('copy').style.display = 'inline-block';
-    });
-
-    document.getElementById('copy').addEventListener('click', () => {
-      const ta = document.getElementById('snippet');
-      ta.select();
-      document.execCommand('copy');
-      alert('Code copied to clipboard.');
-    });
-  </script>
+  const ta = document.getElementById('snippet');
+  ta.value = snippet;
+  document.getElementById('copy').style.display = 'inline-block';
+});
 </body>
 </html>
