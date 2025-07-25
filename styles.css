@@ -1,0 +1,80 @@
+/* styles.css */
+:root {
+  --bg: #121212;
+  --fg: #e0e0e0;
+  --accent: #1abcfe;
+  --input-bg: #1f1f1f;
+  --input-border: #333;
+  --btn-bg: #1abcfe;
+  --btn-fg: #121212;
+  --placeholder: #888;
+  --code-bg: #1e1e1e;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  line-height: 1.6;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--accent);
+}
+
+label {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: .6rem;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--fg);
+  border-radius: 4px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--placeholder);
+}
+
+button {
+  padding: .75rem 1.5rem;
+  font-size: 1rem;
+  margin-right: .5rem;
+  cursor: pointer;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: none;
+  border-radius: 4px;
+  transition: background .2s ease;
+}
+
+button:hover {
+  background: #179fcc;
+}
+
+#snippet {
+  background: var(--code-bg);
+  border: 1px solid var(--input-border);
+  font-family: monospace;
+  white-space: pre-wrap;
+  height: 350px;
+  resize: vertical;
+}
