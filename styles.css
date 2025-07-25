@@ -2,14 +2,14 @@
 
 /* — Color Palette & Variables — */
 :root {
-  --bg: #00fff0;
+  --bg: #0a0a0f;
   --fg: #e6e6e6;
   --accent1: #00fff0;
   --accent2: #ff00ff;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.2);
   --input-bg: rgba(255, 255, 255, 0.1);
-  --btn-bg: rgba(0, 255, 240, 0.2);
+  --btn-bg: #00fff0;
   --btn-hover: rgba(0, 255, 240, 0.4);
   --shadow-glow: 0 0 20px rgba(0, 255, 240, 0.5);
 }
