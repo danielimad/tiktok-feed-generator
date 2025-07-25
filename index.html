@@ -79,10 +79,10 @@
       margin-top: 0.8rem;
     }
     .developer-credit {
-      color: #0ff;
       text-align: center;
       margin-top: 1.5rem;
       font-size: 0.9rem;
+      color: #0ff;
     }
     .developer-credit a {
       color: inherit;
@@ -109,12 +109,12 @@
     <div class="copy-container">
       <button id="copyBtn" disabled>Copy to Clipboard</button>
     </div>
-  </div>
 
-  <!-- Developer credit -->
-  <p class="developer-credit">
-    Developed by <a href="https://danielimad.com" target="_blank" rel="noopener">Daniel Imad</a>
-  </p>
+    <!-- Moved inside .generator so it sits below the box -->
+    <p class="developer-credit">
+      Developed by <a href="https://danielimad.com" target="_blank" rel="noopener">Daniel Imad</a>
+    </p>
+  </div>
 
   <script>
     const form    = document.getElementById('genForm');
