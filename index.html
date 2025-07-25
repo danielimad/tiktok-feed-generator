@@ -1,62 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="/styles.css" />
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TikTok Embed Code Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      line-height: 1.5;
-    }
-    h1 { text-align: center; margin-bottom: 2rem; }
-    label { display: block; margin-bottom: .5rem; font-weight: bold; }
-    input { width: 100%; padding: .5rem; margin-bottom: 1.5rem; box-sizing: border-box; }
-    button {
-      padding: .75rem 1.5rem;
-      font-size: 1rem;
-      margin-right: .5rem;
-      cursor: pointer;
-    }
-    #snippet {
-      width: 100%;
-      height: 350px;
-      margin-top: 1rem;
-      padding: .5rem;
-      box-sizing: border-box;
-      font-family: monospace;
-      white-space: pre-wrap;
-    }
-  </style>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <h1>TikTok Embed Code Generator</h1>
 
-  <label for="username">TikTok Username:</label>
-  <input type="text" id="username" placeholder="e.g. @0xdanielimad" />
+  <div class="glass">
+    <label for="username">TikTok Username:</label>
+    <input type="text" id="username" placeholder="e.g. mdlawellness" />
 
-  <label for="count">Number of Posts to Display:</label>
-  <input type="number" id="count" min="1" max="12" value="6" />
+    <label for="count">Number of Posts to Display:</label>
+    <input type="number" id="count" min="1" max="12" value="6" />
 
-  <button id="generate">Generate Code</button>
-  <button id="copy" style="display:none;">Copy to Clipboard</button>
+    <button id="generate">Generate Code</button>
+    <button id="copy" style="display:none;">Copy to Clipboard</button>
 
-  <textarea id="snippet" readonly placeholder="Generated code will appear here…"></textarea>
+    <textarea
+      id="snippet"
+      readonly
+      placeholder="Generated code will appear here…"
+    ></textarea>
+  </div>
 
   <script>
-   document.getElementById('generate').addEventListener('click', () => {
-  const user = document.getElementById('username').value.trim();
-  let  cnt  = parseInt(document.getElementById('count').value, 10);
-  if (!user) { alert('Enter a TikTok username'); return; }
-  if (!cnt || cnt < 1) cnt = 6;
+    document.getElementById('generate').addEventListener('click', () => {
+      const user = document.getElementById('username').value.trim();
+      let cnt = parseInt(document.getElementById('count').value, 10);
+      if (!user) {
+        alert('Please enter a TikTok username.');
+        return;
+      }
+      if (!cnt || cnt < 1) cnt = 6;
 
-  const endpoint = `https://tiktok-feed-sigma.vercel.app/api/tiktok?username=${user}&count=${cnt}`;
+      const endpoint = `https://tiktok-feed-sigma.vercel.app/api/tiktok?username=${user}&count=${cnt}`;
 
-  const snippet =
+      const snippet =
 `<!-- TikTok feed for @${user} (max 4 columns) -->
 <div id="tiktok-feed-container" style="
     display: grid;
@@ -101,11 +83,19 @@
         container.innerHTML = '<p>Failed to load TikTok videos.</p>';
       });
   })();
-</script>`;
+<\/script>`;
 
-  const ta = document.getElementById('snippet');
-  ta.value = snippet;
-  document.getElementById('copy').style.display = 'inline-block';
-});
+      const ta = document.getElementById('snippet');
+      ta.value = snippet;
+      document.getElementById('copy').style.display = 'inline-block';
+    });
+
+    document.getElementById('copy').addEventListener('click', () => {
+      const ta = document.getElementById('snippet');
+      ta.select();
+      document.execCommand('copy');
+      alert('Code copied to clipboard.');
+    });
+  </script>
 </body>
 </html>
