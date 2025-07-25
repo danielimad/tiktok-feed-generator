@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TikTok Embed Code Generator</title>
   <style>
-    /* Reset and base */
+    /* Reset & Base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: #0f0f12;
       color: #eee;
       font-family: sans-serif;
-      line-height: 1.5;
       display: flex;
       justify-content: center;
       padding: 2rem;
@@ -27,7 +26,6 @@
     h1 {
       text-align: center;
       margin-bottom: 1.5rem;
-      font-size: 1.8rem;
       color: #0ff;
     }
     .form-group {
@@ -45,8 +43,7 @@
       border-radius: 4px;
       font-size: 1rem;
     }
-    button, #copyBtn {
-      display: inline-block;
+    button {
       background: #0ff;
       color: #000;
       border: none;
@@ -56,12 +53,9 @@
       border-radius: 4px;
       cursor: pointer;
       transition: background 0.2s;
-      margin-top: 0.8rem;
     }
-    button:hover, #copyBtn:hover {
-      background: #0cc;
-    }
-    #copyBtn:disabled {
+    button:hover { background: #0cc; }
+    button:disabled {
       background: #444;
       cursor: default;
       opacity: 0.6;
@@ -77,6 +71,11 @@
       white-space: pre-wrap;
       word-break: break-word;
     }
+    .copy-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.8rem;
+    }
   </style>
 </head>
 <body>
@@ -85,35 +84,25 @@
     <form id="genForm">
       <div class="form-group">
         <label for="username">TikTok Username:</label>
-        <input
-          id="username"
-          type="text"
-          placeholder="e.g. mdlawellness"
-          required
-        />
+        <input id="username" type="text" placeholder="e.g. mdlawellness" required />
       </div>
       <div class="form-group">
         <label for="count">Number of Posts to Display:</label>
-        <input
-          id="count"
-          type="number"
-          min="1"
-          max="12"
-          value="6"
-          required
-        />
+        <input id="count" type="number" min="1" max="12" value="6" required />
       </div>
       <button type="submit">Generate Code</button>
     </form>
 
     <pre id="output">Generated code will appear here…</pre>
-    <button id="copyBtn" disabled>Copy to Clipboard</button>
+    <div class="copy-container">
+      <button id="copyBtn" disabled>Copy to Clipboard</button>
+    </div>
   </div>
 
   <script>
-    const form     = document.getElementById('genForm');
-    const output   = document.getElementById('output');
-    const copyBtn  = document.getElementById('copyBtn');
+    const form    = document.getElementById('genForm');
+    const output  = document.getElementById('output');
+    const copyBtn = document.getElementById('copyBtn');
 
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -155,7 +144,7 @@
       `.trim();
 
       output.textContent = code;
-      copyBtn.disabled = false;
+      copyBtn.disabled  = false;
     });
 
     copyBtn.addEventListener('click', () => {
@@ -164,9 +153,7 @@
           copyBtn.textContent = 'Copied!';
           setTimeout(() => copyBtn.textContent = 'Copy to Clipboard', 2000);
         })
-        .catch(err => {
-          console.error('Copy failed:', err);
-        });
+        .catch(err => console.error('Copy failed:', err));
     });
   </script>
 </body>
