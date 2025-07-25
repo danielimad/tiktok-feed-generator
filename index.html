@@ -12,21 +12,9 @@
       padding: 0 1rem;
       line-height: 1.5;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    label {
-      display: block;
-      margin-bottom: .5rem;
-      font-weight: bold;
-    }
-    input[type="text"], input[type="number"] {
-      width: 100%;
-      padding: .5rem;
-      margin-bottom: 1.5rem;
-      box-sizing: border-box;
-    }
+    h1 { text-align: center; margin-bottom: 2rem; }
+    label { display: block; margin-bottom: .5rem; font-weight: bold; }
+    input { width: 100%; padding: .5rem; margin-bottom: 1.5rem; box-sizing: border-box; }
     button {
       padding: .75rem 1.5rem;
       font-size: 1rem;
@@ -35,11 +23,12 @@
     }
     #snippet {
       width: 100%;
-      height: 300px;
+      height: 350px;
       margin-top: 1rem;
       padding: .5rem;
       box-sizing: border-box;
       font-family: monospace;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -50,7 +39,7 @@
   <input type="text" id="username" placeholder="e.g. mdlawellness" />
 
   <label for="count">Number of Posts to Display:</label>
-  <input type="number" id="count" min="1" max="12" value="9" />
+  <input type="number" id="count" min="1" max="12" value="6" />
 
   <button id="generate">Generate Code</button>
   <button id="copy" style="display:none;">Copy to Clipboard</button>
@@ -65,18 +54,19 @@
         alert('Please enter a TikTok username.');
         return;
       }
-      if (!cnt || cnt < 1) cnt = 9;
+      if (!cnt || cnt < 1) cnt = 6;
 
       const endpoint = `https://tiktok-feed-sigma.vercel.app/api/tiktok?username=${user}&count=${cnt}`;
+
       const snippet = 
-`<!-- TikTok feed for @${user} -->
-<div
-  id="tiktok-feed-container"
-  style="
+`<!-- TikTok feed for @${user} (max 4 columns) -->
+<div id="tiktok-feed-container" style="
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
     gap: 1rem;
-    margin: 1rem 0;
+    margin: 1rem auto;
+    /* 4 × 275px + 3 × 1rem gap = 1100px + 48px = 1148px */
+    max-width: 1148px;
   ">
 </div>
 
@@ -98,6 +88,8 @@
           block.innerHTML = '<section></section>';
           container.appendChild(block);
         });
+
+        // Load TikTok embed.js exactly once
         if (!window.tiktokEmbedScript) {
           window.tiktokEmbedScript = true;
           const js = document.createElement('script');
@@ -108,7 +100,7 @@
       })
       .catch(e => {
         console.error('TikTok feed error:', e);
-        container.innerHTML = '<p style="color:red;">Failed to load TikTok videos.</p>';
+        container.innerHTML = '<p>Failed to load TikTok videos.</p>';
       });
   })();
 <\/script>`;
