@@ -1,80 +1,133 @@
 /* styles.css */
+
+/* — Color Palette & Variables — */
 :root {
-  --bg: #121212;
-  --fg: #e0e0e0;
-  --accent: #1abcfe;
-  --input-bg: #1f1f1f;
-  --input-border: #333;
-  --btn-bg: #1abcfe;
-  --btn-fg: #121212;
-  --placeholder: #888;
-  --code-bg: #1e1e1e;
+  --bg: #0a0a0f;
+  --fg: #e6e6e6;
+  --accent1: #00fff0;
+  --accent2: #ff00ff;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --input-bg: rgba(255, 255, 255, 0.1);
+  --btn-bg: rgba(0, 255, 240, 0.2);
+  --btn-hover: rgba(0, 255, 240, 0.4);
+  --shadow-glow: 0 0 20px rgba(0, 255, 240, 0.5);
 }
 
+/* — Global & Glass — */
 html, body {
+  margin: 0; padding: 0;
   background: var(--bg);
   color: var(--fg);
+  font-family: 'Segoe UI', Roboto, sans-serif;
 }
-
 body {
-  font-family: Arial, sans-serif;
   max-width: 700px;
   margin: 2rem auto;
   padding: 0 1rem;
   line-height: 1.6;
+  backdrop-filter: blur(4px);
 }
 
+/* Glass panels */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.6);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* — Headings — */
 h1 {
   text-align: center;
-  margin-bottom: 2rem;
-  color: var(--accent);
+  color: var(--accent1);
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 8px var(--accent1);
 }
 
+/* — Form Elements — */
 label {
   display: block;
-  margin-bottom: .5rem;
-  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--fg);
 }
 
 input[type="text"],
 input[type="number"],
 textarea {
   width: 100%;
-  padding: .6rem;
-  margin-bottom: 1.5rem;
-  box-sizing: border-box;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
   background: var(--input-bg);
-  border: 1px solid var(--input-border);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
   color: var(--fg);
-  border-radius: 4px;
+  outline: none;
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+input:focus,
+textarea:focus {
+  border-color: var(--accent1);
+  box-shadow: 0 0 10px var(--accent1);
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: var(--placeholder);
+::placeholder {
+  color: rgba(230,230,230,0.6);
 }
 
+/* — Buttons — */
 button {
-  padding: .75rem 1.5rem;
-  font-size: 1rem;
-  margin-right: .5rem;
-  cursor: pointer;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  margin-right: 0.5rem;
   background: var(--btn-bg);
-  color: var(--btn-fg);
+  color: var(--bg);
   border: none;
-  border-radius: 4px;
-  transition: background .2s ease;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-glow);
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
 }
-
 button:hover {
-  background: #179fcc;
+  background: var(--btn-hover);
+  box-shadow: 0 0 30px var(--accent1);
+  transform: translateY(-2px);
+}
+button:active {
+  transform: translateY(0);
 }
 
+/* — Code Snippet Area — */
 #snippet {
-  background: var(--code-bg);
-  border: 1px solid var(--input-border);
-  font-family: monospace;
-  white-space: pre-wrap;
+  width: 100%;
   height: 350px;
-  resize: vertical;
+  padding: 1rem;
+  background: #111;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  color: var(--fg);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+}
+
+/* — Footer & Misc — */
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: rgba(230,230,230,0.5);
 }
