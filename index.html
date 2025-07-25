@@ -45,7 +45,7 @@
       border-radius: 4px;
       font-size: 1rem;
     }
-    button {
+    button, #copyBtn {
       display: inline-block;
       background: #0ff;
       color: #000;
@@ -56,9 +56,15 @@
       border-radius: 4px;
       cursor: pointer;
       transition: background 0.2s;
+      margin-top: 0.8rem;
     }
-    button:hover {
+    button:hover, #copyBtn:hover {
       background: #0cc;
+    }
+    #copyBtn:disabled {
+      background: #444;
+      cursor: default;
+      opacity: 0.6;
     }
     pre {
       margin-top: 1.5rem;
@@ -68,6 +74,8 @@
       max-height: 300px;
       overflow-y: auto;
       font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
   </style>
 </head>
@@ -80,7 +88,7 @@
         <input
           id="username"
           type="text"
-          placeholder="e.g. @Tiktok"
+          placeholder="e.g. mdlawellness"
           required
         />
       </div>
@@ -99,10 +107,15 @@
     </form>
 
     <pre id="output">Generated code will appear here…</pre>
+    <button id="copyBtn" disabled>Copy to Clipboard</button>
   </div>
 
   <script>
-    document.getElementById('genForm').addEventListener('submit', e => {
+    const form     = document.getElementById('genForm');
+    const output   = document.getElementById('output');
+    const copyBtn  = document.getElementById('copyBtn');
+
+    form.addEventListener('submit', e => {
       e.preventDefault();
       const user = document.getElementById('username').value.trim();
       const cnt  = document.getElementById('count').value;
@@ -140,7 +153,20 @@
   })();
 <\/script>
       `.trim();
-      document.getElementById('output').textContent = code;
+
+      output.textContent = code;
+      copyBtn.disabled = false;
+    });
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(output.textContent)
+        .then(() => {
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => copyBtn.textContent = 'Copy to Clipboard', 2000);
+        })
+        .catch(err => {
+          console.error('Copy failed:', err);
+        });
     });
   </script>
 </body>
