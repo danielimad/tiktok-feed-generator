@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TikTok Feed Embed Code Generator</title>
+  <title>TikTok Embed Code Generator</title>
   <meta name="description" content="Free TikTok embed code for any website—showcase your latest videos automatically without manual updates or paid plugins. No coding required." />
   <link rel="icon" href="https://www.tiktok.com/favicon.ico" type="image/x-icon" />
   <style>
@@ -78,6 +78,16 @@
       justify-content: flex-end;
       margin-top: 0.8rem;
     }
+    .developer-credit {
+      color: #0ff;
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+    .developer-credit a {
+      color: inherit;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -100,6 +110,11 @@
       <button id="copyBtn" disabled>Copy to Clipboard</button>
     </div>
   </div>
+
+  <!-- Developer credit -->
+  <p class="developer-credit">
+    Developed by <a href="https://danielimad.com" target="_blank" rel="noopener">Daniel Imad</a>
+  </p>
 
   <script>
     const form    = document.getElementById('genForm');
