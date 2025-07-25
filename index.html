@@ -1,100 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TikTok Embed Code Generator</title>
-  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    /* Reset and base */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f0f12;
+      color: #eee;
+      font-family: sans-serif;
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .generator {
+      max-width: 600px;
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #0ff;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: bold;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    button {
+      display: inline-block;
+      background: #0ff;
+      color: #000;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #0cc;
+    }
+    pre {
+      margin-top: 1.5rem;
+      background: rgba(255,255,255,0.02);
+      padding: 1rem;
+      border-radius: 4px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-  <h1>TikTok Embed Code Generator</h1>
+  <div class="generator">
+    <h1>TikTok Embed Code Generator</h1>
+    <form id="genForm">
+      <div class="form-group">
+        <label for="username">TikTok Username:</label>
+        <input
+          id="username"
+          type="text"
+          placeholder="e.g. @Tiktok"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="count">Number of Posts to Display:</label>
+        <input
+          id="count"
+          type="number"
+          min="1"
+          max="12"
+          value="6"
+          required
+        />
+      </div>
+      <button type="submit">Generate Code</button>
+    </form>
 
-  <div class="glass">
-    <label for="username">TikTok Username:</label>
-    <input type="text" id="username" placeholder="e.g. @tiktok" />
-
-    <label for="count">Number of Posts to Display:</label>
-    <input type="number" id="count" min="1" max="12" value="6" />
-
-    <button id="generate">Generate Code</button>
-    <button id="copy" style="display:none;">Copy to Clipboard</button>
-
-    <textarea
-      id="snippet"
-      readonly
-      placeholder="Generated code will appear here…"
-    ></textarea>
+    <pre id="output">Generated code will appear here…</pre>
   </div>
 
   <script>
-    document.getElementById('generate').addEventListener('click', () => {
+    document.getElementById('genForm').addEventListener('submit', e => {
+      e.preventDefault();
       const user = document.getElementById('username').value.trim();
-      let cnt = parseInt(document.getElementById('count').value, 10);
-      if (!user) {
-        alert('Please enter a TikTok username.');
-        return;
-      }
-      if (!cnt || cnt < 1) cnt = 6;
-
-      const endpoint = `https://tiktok-feed-sigma.vercel.app/api/tiktok?username=${user}&count=${cnt}`;
-
-      const snippet =
-`<!-- TikTok feed for @${user} (max 4 columns) -->
-<div id="tiktok-feed-container" style="
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
-    gap: 1rem;
-    margin: 1rem auto;
-    /* 4 × 275px + 3 × 1rem gap = 900px + 48px = 948px */
-    max-width: 948px;
-  ">
-</div>
+      const cnt  = document.getElementById('count').value;
+      const code = `
+<!-- TikTok Looping Video Grid -->
+<div id="tiktok-loop-container" style="
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+  gap: 16px;
+  margin: 1rem 0;
+"></div>
 
 <script>
   (function() {
-    const apiEndpoint = '${endpoint}';
-    const container   = document.getElementById('tiktok-feed-container');
+    const apiURL = 'https://www.tikwm.com/api/user/posts?unique_id=${user}&count=${cnt}';
+    const container = document.getElementById('tiktok-loop-container');
 
-    fetch(apiEndpoint)
+    fetch(apiURL)
       .then(r => r.json())
-      .then(({ ids }) => {
-        ids.forEach(id => {
-          const block = document.createElement('blockquote');
-          block.className = 'tiktok-embed';
-          block.setAttribute('cite', \`https://www.tiktok.com/@${user}/video/\${id}\`);
-          block.setAttribute('data-video-id', id);
-          block.style.maxWidth = '325px';
-          block.style.minWidth = '225px';
-          block.innerHTML = '<section></section>';
-          container.appendChild(block);
+      .then(json => {
+        const videos = json.data.videos || [];
+        videos.forEach(video => {
+          const v = document.createElement('video');
+          v.src = video.play;
+          v.autoplay = true;
+          v.loop = true;
+          v.muted = true;
+          v.playsInline = true;
+          v.controls = true;
+          v.style.display = 'block';
+          container.appendChild(v);
         });
-
-        // Load TikTok embed.js exactly once
-        if (!window.tiktokEmbedScript) {
-          window.tiktokEmbedScript = true;
-          const js = document.createElement('script');
-          js.src   = 'https://www.tiktok.com/embed.js';
-          js.async = true;
-          document.body.appendChild(js);
-        }
       })
-      .catch(e => {
-        console.error('TikTok feed error:', e);
-        container.innerHTML = '<p>Failed to load TikTok videos.</p>';
-      });
+      .catch(err => console.error('Error loading TikTok videos:', err));
   })();
-<\/script>`;
-
-      const ta = document.getElementById('snippet');
-      ta.value = snippet;
-      document.getElementById('copy').style.display = 'inline-block';
-    });
-
-    document.getElementById('copy').addEventListener('click', () => {
-      const ta = document.getElementById('snippet');
-      ta.select();
-      document.execCommand('copy');
-      alert('Code copied to clipboard.');
+<\/script>
+      `.trim();
+      document.getElementById('output').textContent = code;
     });
   </script>
 </body>
